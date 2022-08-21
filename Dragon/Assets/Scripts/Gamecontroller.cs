@@ -19,7 +19,7 @@ public class Gamecontroller : MonoBehaviour
         public AudioSource gameWin;
         
         // Creating an object of dragoncontroller class
-        private Dragoncontroller Dragon;
+        private Firebarcontroller dragon;
 
         private string word;
         
@@ -32,10 +32,10 @@ public class Gamecontroller : MonoBehaviour
     public void Start()
     {
             // Assinging an unity object to the dragon object of the dragon controller class
-            Dragon = GameObject.FindGameObjectWithTag("Player").GetComponent<Dragoncontroller>();
-            
+            dragon = GameObject.FindGameObjectWithTag("Player").GetComponent<Firebarcontroller>();
+
             // calling reset method
-            reset();   
+            ResetGame();   
     }
 
  
@@ -49,18 +49,18 @@ public class Gamecontroller : MonoBehaviour
                 // Creating a temporary string for to save the user input
                 string tmp = Input.inputString;
                 if (Input.anyKeyDown)
-                    next();
+                    NextWord();
                 return;
             }
             // Getting valid input from user
 
-            if (s.Length == 1 && Textutil.isAlpha(s[0]))
+            if (s.Length == 1 && Textutil.IsAlpha(s[0]))
             {
-                if (!check(s.ToUpper()[0]))
+                if (!Check(s.ToUpper()[0]))
                 {
-                    Dragon.punish();
+                    dragon.Punish();
 
-                    if (Dragon.isfired)
+                    if (dragon.Isfired)
                     {
                         //Reveling each latter from user
                         wordIndicator.text = word;
@@ -72,7 +72,7 @@ public class Gamecontroller : MonoBehaviour
             
     }
         // Checking each user input
-        private bool check(char c)
+        private bool Check(char c)
         {
             
             int completed = 0;
@@ -107,14 +107,14 @@ public class Gamecontroller : MonoBehaviour
                         this.score += reveled.Length;
                         gameWin.Play();
                     }
-                    updatewordindicator();
-                    updatescoreIndicator();
+                    UpdateWordIndicator();
+                    UpdateScoreIndicator();
                 }
             }
             return ret;
         }
 
-        private void updatewordindicator()
+        private void UpdateWordIndicator()
         {
             string displayed = " ";
             
@@ -135,12 +135,12 @@ public class Gamecontroller : MonoBehaviour
             
         }
 
-        private void updatescoreIndicator()
+        private void UpdateScoreIndicator()
         {
             scoreIndicator.text = "Score = " + score;
             correctAnswer.Play();
         }
-        private void setword(string word)
+        private void SetWord(string word)
         {
             word = word.ToUpper();
             this.word = word;
@@ -148,23 +148,23 @@ public class Gamecontroller : MonoBehaviour
            //reveling charecters
             reveled = new char[word.Length];
             letterIndicator.text = "Letters = " + word.Length;
-            
-            updatewordindicator();
+
+            UpdateWordIndicator();
         }
-        public void next()
+        public void NextWord()
         {
             // If the player runs out of tries reset the game
-            Dragon.Reset();
+            dragon.Reset();
 
             completed = false;
-            setword(Wordlist.instance.next(0));
+            SetWord(WordList.Instance.NextWord(0));
         }
-        public void reset()
+        public void ResetGame()
         {
             score = 0;
             //completed = false;
-            updatescoreIndicator();
-            next();
+            UpdateScoreIndicator();
+            NextWord();
         }
     }
 }

@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Mainmenu.unity
     guid: 72b5e41e6a557244db83ad54aa61db95
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/WordGame.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
